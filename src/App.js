@@ -1,26 +1,48 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
+import UserOutput from './components/UserOutput/UserOutput';
+import UserInput from './components/UserInput/UserInput';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  state = {
+    texts: [
+      { first: "This is the first task!" },
+      { second: "Thanks for the visit!" },
+      { userName: "Freezer" }
+    ]
+  }
+
+  clickNameHandler = (newUserName) => {
+    this.setState({ 
+      texts: [
+        { first: "Later!" },
+        { second: "Soon!" },
+        { userName: newUserName }
+      ] 
+    });
+  }
+
+  inputNameChangeHandler = (event) => {
+    this.setState({ 
+      texts: [
+        { first: "Later!" },
+        { second: "Soon!" },
+        { userName: event.target.value }
+      ] 
+    });
+  }
+
+  render() {
+    return (
+        <div className="App">          
+          <UserOutput first={ this.state.texts[0].first } />
+          <UserOutput second={ this.state.texts[2].userName } click={ this.clickNameHandler.bind(this, 'Lilit') } >
+            {this.state.texts[1].second}
+          </UserOutput>
+          <UserInput changed={ this.inputNameChangeHandler } userName={this.state.texts[2].userName} />
+        </div>
+      );
+    }
 }
 
 export default App;
